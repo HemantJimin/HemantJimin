@@ -211,6 +211,99 @@
 </p>
 
 ---
+<!-- GOLDEN ANGEL WINGS + BANNER -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/danielcranney/profile-logos/main/wings_gold_left.png" width="110" alt="golden wing left"/>
+  <img src="https://cdn.pixabay.com/photo/2016/06/15/13/40/crown-1454104_1280.png" width="60" alt="golden crown"/>
+  <img src="https://raw.githubusercontent.com/danielcranney/profile-logos/main/wings_gold_right.png" width="110" alt="golden wing right"/>
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=FFD700,FFFACD&height=150&section=header&text=Hemant%20Jimin%20Profile&fontSize=40&fontAlignY=40&desc=👑%20Golden%20Profile%20👑&descAlignY=66" />
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=FFD700&center=true&vCenter=true&width=600&lines=Welcome+to+Hemant+Jimin's+Golden+GitHub!;Full+Stack+Developer;Game+Lover;Code+Magician!" alt="Typing SVG" />
+</p>
+
+---
+
+## 🏆 Golden Trophies
+
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=HemantJimin&theme=onestar&no-frame=true&row=1&column=8&margin-w=15&margin-h=15" alt="GitHub Trophy Gold"/>
+</div>
+
+---
+
+## 👼 Golden Angel Wings (Decor)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/danielcranney/profile-logos/main/wings_gold_left.png" width="110" alt="golden wing left"/>
+  <img src="https://cdn.pixabay.com/photo/2016/06/15/13/40/crown-1454104_1280.png" width="50" alt="golden crown"/>
+  <img src="https://raw.githubusercontent.com/danielcranney/profile-logos/main/wings_gold_right.png" width="110" alt="golden wing right"/>
+</p>
+
+---
+
+## 🕹️ Game Zone
+
+- 🐍 **Snake Game** (Animated Contribution Graph)
+  <br>
+  <img src="https://github.com/HemantJimin/HemantJimin/raw/main/github-contribution-grid-snake.svg" alt="snake game animation"/>
+
+- 🧩 **Tetris Game**  
+  [Play Tetris](https://tetris.com/play-tetris) (Open in new tab!)
+
+- 🦄 **2048 Game**  
+  [Play 2048](https://play2048.co/)
+
+- 🎮 **Games Hub (Lots of free games!)**  
+  [Open CrazyGames Hub](https://www.crazygames.com/)
+
+---
+
+## ✨ Golden Badges and Socials
+
+<p align="center">
+  <a href="https://www.instagram.com/hemantjimin/" target="_blank">
+    <img src="https://img.shields.io/badge/Instagram-gold?style=for-the-badge&logo=instagram&logoColor=white"/>
+  </a>
+  <a href="http://webdevsoft.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Website-gold?style=for-the-badge&logo=google-chrome&logoColor=white"/>
+  </a>
+  <a href="mailto:hemantjimi@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Email-gold?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+</p>
+
+---
+
+## 📈 GitHub Stats
+
+<p align="center">
+  <img width="48%" src="https://github-readme-stats.vercel.app/api?username=HemantJimin&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" alt="GitHub Stats" />
+  <img width="48%" src="https://github-readme-streak-stats.herokuapp.com/?user=HemantJimin&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
+</p>
+<p align="center">
+  <img width="48%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=HemantJimin&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" />
+</p>
+
+---
+
+## 💡 Dev Quote
+
+<p align="center">
+  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Random Dev Quote" />
+</p>
+
+---
+
+## 🌈 Footer with More Shine
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=FFD700,FFFACD&height=100&section=footer" />
+</p>
 
 ## 🐍 Snake Eating My Contributions
 
