@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/github/followers/HemantJimin?label=Followers&style=social" alt="GitHub Followers" />
 </p>
 
-## 🚀 About Me
+## 🚀 About Me #HemantJimin
 
 🎓 I'm a passionate **Full Stack Developer** and a student at **VGU (Vivekananda Global University)**
 
