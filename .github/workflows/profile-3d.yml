@@ -1,0 +1,129 @@
+# Save as: .github/workflows/profile-3d.yml  (in repo HemantJimin/HemantJimin)
+# ONE workflow / ONE job / ONE deploy:
+#   snake (light + dark) + 3D calendar + self-generated animated stats card
+# No third-party stats servers, so no more "402" or "Error Fetching Resource".
+name: Generate profile animations
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-animations
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Snake
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake.svg
+            dist/snake-dark.svg?palette=github-dark
+
+      - name: 3D contributions
+        uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+
+      - name: Animated stats and languages card
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PY'
+          import os, json, html, urllib.request, collections, datetime
+          user = os.environ.get("GH_USER", "HemantJimin")
+          tok = os.environ.get("GH_TOKEN", "")
+          def api(path):
+              h = {"Accept": "application/vnd.github+json", "User-Agent": "profile-card"}
+              if tok:
+                  h["Authorization"] = "Bearer " + tok
+              r = urllib.request.Request("https://api.github.com" + path, headers=h)
+              return json.load(urllib.request.urlopen(r, timeout=30))
+          u = api("/users/" + user)
+          repos, page = [], 1
+          while True:
+              b = api("/users/%s/repos?per_page=100&type=owner&page=%d" % (user, page))
+              repos += b
+              if len(b) < 100:
+                  break
+              page += 1
+          own = [r for r in repos if not r["fork"]]
+          stars = sum(r["stargazers_count"] for r in own)
+          forks = sum(r["forks_count"] for r in own)
+          langs = collections.Counter()
+          for r in own[:40]:
+              try:
+                  for k, v in api("/repos/%s/languages" % r["full_name"]).items():
+                      langs[k] += v
+              except Exception:
+                  if r["language"]:
+                      langs[r["language"]] += 1
+          total = sum(langs.values()) or 1
+          top = langs.most_common(6)
+          years = max(0, round((datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(u["created_at"].replace("Z", "+00:00"))).days / 365.25, 1))
+          COL = {"Java": "#f89820", "JavaScript": "#f1e05a", "Python": "#3572a5", "HTML": "#e34c26", "CSS": "#563d7c", "TypeScript": "#3178c6", "C": "#888888", "C++": "#f34b7d", "PHP": "#4f5d95", "Shell": "#89e051", "Jupyter Notebook": "#da5b0b", "SCSS": "#c6538c"}
+          PAL = ["#2f81f7", "#3fb950", "#d29922", "#a371f7", "#f778ba", "#79c0ff"]
+          S = []
+          S.append('<svg xmlns="http://www.w3.org/2000/svg" width="820" height="290" viewBox="0 0 820 290">')
+          S.append('<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f81f7"/><stop offset="1" stop-color="#3fb950"/></linearGradient></defs>')
+          S.append('<style>text{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}'
+                   '.t{font-size:18px;font-weight:700;fill:url(#g)}.n{font-size:30px;font-weight:700;fill:#e6edf3}'
+                   '.l{font-size:12px;fill:#8b949e}.ln{font-size:13px;fill:#e6edf3}.p{font-size:12px;fill:#8b949e}'
+                   '.f{opacity:0;animation:fi .8s ease-out forwards}'
+                   '.bar{transform-box:fill-box;transform-origin:left center;transform:scaleX(0);animation:gr 1.3s cubic-bezier(.2,.8,.2,1) forwards}'
+                   '@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}'
+                   '@keyframes gr{to{transform:scaleX(1)}}</style>')
+          S.append('<rect x="1" y="1" width="818" height="288" rx="14" fill="#0d1117" stroke="#30363d"/>')
+          S.append('<text x="30" y="40" class="t">GitHub Stats</text>')
+          S.append('<text x="440" y="40" class="t">Top Languages</text>')
+          S.append('<line x1="410" y1="25" x2="410" y2="265" stroke="#21262d"/>')
+          items = [(u["public_repos"], "Repositories"), (stars, "Stars earned"), (forks, "Forks"), (u["followers"], "Followers"), (u["following"], "Following"), (years, "Years on GitHub")]
+          for i, (v, lab) in enumerate(items):
+              x, y = 30 + (i % 2) * 190, 90 + (i // 2) * 72
+              S.append('<g class="f" style="animation-delay:%.2fs"><text x="%d" y="%d" class="n">%s</text><text x="%d" y="%d" class="l">%s</text></g>' % (i * 0.12, x, y, html.escape(str(v)), x, y + 20, lab))
+          if not top:
+              S.append('<text x="440" y="100" class="l">No public code yet. Push a repo!</text>')
+          for i, (name, val) in enumerate(top):
+              y = 78 + i * 34
+              c = COL.get(name, PAL[i % len(PAL)])
+              pct = val * 100 / total
+              w = max(6, 200 * pct / 100)
+              S.append('<g class="f" style="animation-delay:%.2fs"><circle cx="448" cy="%d" r="5" fill="%s"/><text x="462" y="%d" class="ln">%s</text></g>' % (i * 0.12, y - 4, c, y, html.escape(name)))
+              S.append('<rect x="570" y="%d" width="200" height="10" rx="5" fill="#21262d"/>' % (y - 9))
+              S.append('<rect class="bar" style="animation-delay:%.2fs" x="570" y="%d" width="%.1f" height="10" rx="5" fill="%s"/>' % (0.3 + i * 0.15, y - 9, w, c))
+              S.append('<text x="800" y="%d" class="p" text-anchor="end">%.1f%%</text>' % (y, pct))
+          S.append('</svg>')
+          os.makedirs("dist", exist_ok=True)
+          open("dist/stats.svg", "w", encoding="utf-8").write("".join(S))
+          print("ok", len(top), "langs")
+          PY
+
+      - name: Merge outputs
+        run: |
+          mkdir -p dist/3d
+          cp profile-3d-contrib/*.svg dist/3d/
+
+      - name: Deploy to output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          keep_history: false
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
